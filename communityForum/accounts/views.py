@@ -4,6 +4,29 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
+from .forms import SignUpForm
+
+
+
+class SignUpView(View):
+    form_class = SignUpForm
+    template_name = 'accounts/signup.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, ('Your account has been created.'))
+            return redirect('login')
+
+        return render(request, self.template_name, {'form': form})
+
 
 
 
@@ -17,7 +40,7 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
-                return redirect('/admin', user)
+                return redirect('/', user)
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -36,3 +59,7 @@ def user_logout(request):
     messages.info(request, "Logged out successfully!")
     return redirect("login")
 
+
+@login_required(login_url='/login')
+def home_view(request):
+    return render(request, "index.html")
