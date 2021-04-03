@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from .forms import SignUpForm
-
+from .models import Profile
 
 
 class SignUpView(View):
@@ -40,7 +40,7 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
-                return redirect('/', user)
+                return redirect('profile', user)
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -63,3 +63,20 @@ def user_logout(request):
 @login_required(login_url='/login')
 def home_view(request):
     return render(request, "index.html")
+
+
+
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+    u_page = Profile.objects.get(user_id=user)
+
+   
+    context = {
+        'u_page' : u_page,
+        'usr': user,
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
+
+

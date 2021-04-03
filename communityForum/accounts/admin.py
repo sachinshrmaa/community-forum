@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .models import Profile
 
 
 
@@ -8,3 +8,6 @@ from django.contrib import admin
 admin.site.site_header = "ATTC Community Forum"
 admin.site.site_title = "Developers Console"
 admin.site.index_title = "Community Forum Database"
+
+
+admin.site.register(Profile)
