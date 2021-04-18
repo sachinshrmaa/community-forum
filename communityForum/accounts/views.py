@@ -9,6 +9,7 @@ from .forms import SignUpForm
 from .models import Profile
 
 
+
 class SignUpView(View):
     form_class = SignUpForm
     template_name = 'accounts/signup.html'
@@ -21,7 +22,6 @@ class SignUpView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-
             messages.success(request, ('Your account has been created.'))
             return redirect('login')
 
@@ -70,7 +70,6 @@ def user_profile(request, username):
     user = User.objects.get(username=username)
     u_page = Profile.objects.get(user_id=user)
 
-   
     context = {
         'u_page' : u_page,
         'usr': user,

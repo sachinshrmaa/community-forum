@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'accounts',
+    'accounts.apps.AccountsConfig',
 
 
     'crispy_forms',
@@ -92,3 +92,16 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = ( 
+    'assets',
+)
+
+STATIC_ROOT = 'static'
+
+
+#Media SetUp
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'
