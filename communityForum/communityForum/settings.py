@@ -18,10 +18,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #my apps
     'accounts.apps.AccountsConfig',
     'question',
     
+    #third party packages
     'taggit',
+    'crispy_forms',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
