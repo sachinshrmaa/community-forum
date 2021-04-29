@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     #third party packages
     'taggit',
     'crispy_forms',
-    'markdownx',
 ]
 
 MIDDLEWARE = [

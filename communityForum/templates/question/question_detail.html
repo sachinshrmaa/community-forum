@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %} {{ question.title }} {% endblock %}
+
+{% block body %}
+
+<div class="my-4 col-8 m-auto">
+    <div>
+        <h1>{{ question.title }}</h1>
+        <p class="text-muted">Posted by <a href="{% url 'profile' question.user%}">{{question.user}}</a> on {{question.timestamp }} </p>
+        {% if question.tags.names %}
+        <p>
+        {% for tag in question.tags.names %}
+            <small class="bg-light px-3 py-1 text-muted">{{ tag }}</small>
+        {% endfor %}
+        </p>
+        {% endif %}
+        
+        <p class="mt-2">{{question.content}}</p>
+    </div>
+    
+    <div class="row">
+        {% for answer in question.answer_set.all %}
+            <div class="col-md-8 offset-md-1 border-top pt-4">
+                <p class="text-muted">Answered by <a href="{% url 'profile' answer.user%}">{{answer.user}}</a> on {{answer.timestamp }} </p>
+                <p class="mt-2">{{answer}}</p>
+            </div>
+        {% empty %}
+            <div class="text-center card p-5 bg-light">
+                <p> There are no answers yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% endblock %}
