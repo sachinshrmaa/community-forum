@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %} Sign Up{% endblock %}
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+{% for message in messages %}
+            
+<div>
+    <div role="alert">
+        <span>{{message}}</span>
+    </div>
+</div>
+
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+
+    <div >
+        <div>
+            <p>You are logged In as <a href="{% url 'profile' user%}">{{user}}</a> <br> <a href="{% url 'logout'%}">logout</a> to login another account.</p>
+        </div>  
+        
+    </div>
+    
+{% else %}
+
+
+
+<form method="POST">
+
+    <h2>Sign Up</h2>
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        {{form | crispy}}
+    </div>
+    
+    <button type="submit">Sign Up</button>
+</form>
+
+<div>
+    <small>Already have an account? <a href="{% url 'login' %}">Login</a></small>
+</div>
+
+{% endif %}
+
+
+{% endblock %}
