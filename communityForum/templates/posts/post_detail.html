@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Feeds {% endblock %}
+
+{% block body %}
+
+<div>
+    <h3>{{post.title}}</h3>
+    <span>posted by {{post.author}} on {{post.timestamp}} </span>
+    <p>{{post.content}} </p>
+
+
+</div>
+
+{% endblock %}

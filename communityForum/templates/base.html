@@ -10,6 +10,13 @@
 </head>
 <body>
 
+    <nav>
+        <a href="{% url 'feeds' %}">Feeds</a>
+        <a href="{% url 'profile' user %}">{{user}}</a>
+    </nav>
+
+    <hr>
+
     {% block body %}
     {% endblock %}
     

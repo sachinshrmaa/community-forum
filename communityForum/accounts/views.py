@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .models import Profile
+
 
 
 
@@ -72,3 +73,28 @@ def user_profile(request, username):
     return render(request, 'accounts/profile.html', context)
 
 
+
+@login_required(login_url='/login')
+def edit_profile(request):
+    if request.method == 'POST':
+        u_form = UpdateUserForm(request.POST, instance=request.user)
+        p_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your profile has been updated!')
+            return redirect('edit-profile')
+    
+    else:
+        p_form = UpdateProfileForm(instance=request.user.profile)
+        
+        u_form = UpdateUserForm(instance=request.user)
+        
+
+    context = {
+        'p_form' : p_form,
+        'u_form': u_form
+    }
+
+    return render(request, "accounts/edit-profile.html", context)

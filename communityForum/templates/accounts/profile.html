@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block title %} {{user}} {% endblock %}
+{% block title %} {%if u_page.user.first_name %} {{u_page.user.first_name}} {{u_page.user.last_name}} {% else %} {{u_page.user.username}} {% endif %} {% endblock %}
 
 {% load static %}
 
@@ -22,13 +22,13 @@
             <div>
 
                 <div>
-                    <img src="{{u_page.profile_img.url}}" alt="profile image">
+                    <img src="{{usr.profile.profile_img.url}}">
                 </div>
 
                 <div>
                     <h2> 
                         {% if usr.first_name %}
-                            {{usr.first_name}} {{usr.first_name}} 
+                            {{usr.first_name}} {{usr.last_name}} 
                         {% else %}
                             {{usr.username}}
                         {% endif %}
@@ -42,7 +42,7 @@
                     {% if user.is_authenticated %}
                         {% if user == u_page.user %}
                             <div>
-                                <a href="#" >edit profile</a> &nbsp;&nbsp;
+                                <a href="{% url 'edit-profile' %}" >edit profile</a> &nbsp;&nbsp;
                                 <a href="{% url 'logout' %}">logout</a>
                             </div>
                         {% endif %}
