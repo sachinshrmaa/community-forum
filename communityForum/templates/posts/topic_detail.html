@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} {{object.title}} {% endblock %}
+
+{% block body %}
+
+<div class="col-md-8 m-auto">
+
+    <div class="my-4 bg-light py-5 text-center border rounded">
+        <h3>{{object.title}}</h3>
+        <p>{{object.description}}</p>
+    </div>
+
+
+    <div>
+        <h4 class="ms-3">{{object.title}} Questions</h4>
+
+        {% for q in posts %}
+        <div class="border-top p-3">
+            <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
+            <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+            <p>{{q.body}}</p>
+            
+            {% for tag in q.tags.all %}
+            <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+            {% endfor %}
+        </div>
+        {% empty %}
+        <div class="text-center bg-light py-4 border rounded mt-3">
+            <p>No questions in this topic, be the first to <a href="{% url 'post-create' %}">add</a>.</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endblock %} 

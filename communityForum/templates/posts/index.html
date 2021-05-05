@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} Topics {% endblock %}
+
+{% block body %}
+
+<div class="py-3">
+    <h3>All Topics  <a href="{% url 'topic-add' %}" class="btn btn-secondary mx-3"> Add Topic</a> </h3>
+
+    <div class="row py-3">
+        {% for topic in topics %}
+        <div class="col-2 card bg-light m-2 p-3">
+            <a href="{% url 'topic-detail' topic.id %}" class="text-decoration-none"> <h4>{{topic.title}}</h4></a>
+            <p>{{topic.description}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endblock %} 

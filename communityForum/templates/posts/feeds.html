@@ -4,17 +4,45 @@
 
 {% block body %}
 
-<div>
-    <h3>Feeds</h3>
+    <div class="row">
+        <div class="col-md-7"> 
+            <h3 class="m-3">Feeds  <a href="{% url 'post-create' %}" class="btn btn-secondary mx-3"> Post Question</a> </h3>
 
-    {% for post in posts %}
-        <hr>
-        <h3><a href="/q/{{post.id}}">{{post.title}}</a></h3>
-        <span>posted by {{post.author}} on {{post.timestamp}} </span>
-        <p>{{post.content}} </p>
-        <p>Total answers : {{post.count_answers}}</p>
-        
-    {% endfor %}
-</div>
+            {% for q in posts %}
+                <div class="border-top p-3">
+                    <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
+                    <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                    <p>{{q.body}}</p>
+                    
+                    {% for tag in q.tags.all %}
+                    <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="offset-md-1 col-md-4">
+            <h3 class="my-3">Topics  <a href="{% url 'topic-add' %}" class="btn btn-secondary mx-3"> Add Topic</a> </h3>
+
+            <ol class="list-group">
+                {% for topic in topics %}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="ms-2 me-auto">
+                    <div class="fw-bold"><a href="{% url 'topic-detail' topic.id %}" class="text-decoration-none text-dark">{{topic.title}}</a></div>
+                    {{topic.description}}
+                  </div>
+                  <span class="badge bg-primary rounded-pill">14</span>
+                </li>
+                {% endfor %}
+            </ol>
+
+
+            
+                
+            
+        </div>
+    </div>
+    
+
 
 {% endblock %}

@@ -7,24 +7,32 @@
 {% block body %}
 <div>
 
-{% for message in messages %}
+
+    {% for message in messages %}
             
-<div>
-    <div>
-        <span>{{message}}</span>
+    <div class="w-50 m-auto">
+        <div class=" alert alert-info alert-dismissible fade show" role="alert">
+            <span>{{message}}</span>
+        </div>
     </div>
-</div>
 
-{% endfor %}
+    {% endfor %}
 
-    <form method="POST">
-        {% csrf_token %}
 
-        {{u_form | crispy}}
-        {{p_form | crispy}}
+    <div class="col-5 m-auto">
+        <h3 class="mb-4">Edit Profile</h3>
 
-        <button type="submit">Update</button>
-    </form>
+        <form method="POST">
+            {% csrf_token %}
+
+            {{u_form | crispy}}
+            {{p_form | crispy}}
+
+            <button class="btn btn-primary mt-4" type="submit">Update</button>
+        </form>
+    </div>
+
+        
 
 </div>
 

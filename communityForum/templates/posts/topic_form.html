@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div>
+
+    <div class="col-md-6 m-auto">
+        <div class="mt-4">
+            <h4>Add New Topic</h4>
+        </div>
+        <div class="my-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+    
+               <button class="btn btn-primary mt-3 px-4" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %} 
