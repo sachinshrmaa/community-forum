@@ -98,7 +98,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Question
-    fields = ['title', 'body']
+    fields = ['title', 'body', 'topic', 'tags']
     template_name = 'posts/post_form.html'
 
     def form_valid(self, form):
