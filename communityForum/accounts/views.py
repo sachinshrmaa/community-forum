@@ -98,3 +98,8 @@ def edit_profile(request):
     }
 
     return render(request, "accounts/edit-profile.html", context)
+
+
+
+def landing_page(request):
+    return render(request, "index.html")
