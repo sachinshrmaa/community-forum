@@ -36,7 +36,7 @@
 
                 <small class="text-muted">@{{usr.username}} </small>
                 {% if usr.is_staff %}
-                    &nbsp; <i class="bi bi-check-circle"></i>
+                &nbsp; <small class="border border-success rounded text-success p-1"> verified  <i class="bi bi-check-circle"></i></small>
                 {% endif %}
 
                 {% if user.is_authenticated %}
@@ -51,7 +51,80 @@
             </div>
         </div>
     </div>
-         
+
+
+    <div class="col-8 m-auto mt-5">
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Questions</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Answers</button>
+            </li>
+        </ul>
+    
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <h5 class="my-4">All Questions</h5>
+
+                {% for q in question %}
+                    {% if q.author == usr %}
+                    <div class="row border-top">
+                        <div class="col-10">
+                            <div class="p-3">
+                                <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
+                                <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                                <p>{{q.body}}</p>
+                                
+                                {% for tag in q.tags.all %}
+                                <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex flex-column py-2">
+                            <div class="d-flex justify-content-center align-items-center py-2">
+                                <p>Answers : {{q.count_answers}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                
+            </div>
+            <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <h5 class="my-4">All Answers</h5>
+
+                {% for q in ans %}
+                {% if q.author == usr %}
+                <div class="row border-top">
+                    <div class="col-10">
+                        <div class="p-3">
+                            <h4>{{q.question.title}}</h4>
+                            <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                            <p>{{q.body}}</p>
+                            
+                            {% for tag in q.tags.all %}
+                            <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-2 d-flex flex-column py-2">
+                        <div class="d-flex justify-content-center align-items-center py-3">
+                            <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-up-fill"></i> 5 </a>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center py-3">
+                            <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-down-fill"></i> 2 </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            </div>
+        </div>
+    </div>
+  
 </div>
 
 

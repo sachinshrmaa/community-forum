@@ -31,12 +31,20 @@
                 <img class="rounded-circle" src="{{ comment.author.profile.profile_img.url }}" height="50px" width="50px">
             </a>
         </div>
-        <div class="col-md-11 pt-md-4">
+        <div class="col-md-9 pt-md-4">
             <p class="text-muted">Answered by <a href="{% url 'profile' comment.author.profile.user.username %}">{{comment.author.profile.user.username}}</a> on {{comment.timestamp}}</p>
             <p class="mt-2 w-75">{{ comment.body }}</p>
             {% for tag in comment.tags.all %}
                 <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
             {% endfor %}
+        </div>
+        <div class="col-2 d-flex flex-column py-2">
+            <div class="d-flex justify-content-center align-items-center py-3">
+                <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-up-fill"></i> 5 </a>
+            </div>
+            <div class="d-flex justify-content-center align-items-center py-3">
+                <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-down-fill"></i> 2 </a>
+            </div>
         </div>
     </div>
     {% empty %}
