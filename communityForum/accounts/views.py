@@ -8,6 +8,8 @@ from django.views.generic import View
 from .forms import SignUpForm, UpdateProfileForm, UpdateUserForm
 from .models import Profile
 
+from posts.models import Question, Answer
+
 
 
 
@@ -64,11 +66,16 @@ def user_logout(request):
 def user_profile(request, username):
     user = User.objects.get(username=username)
     u_page = Profile.objects.get(user_id=user)
+    questions = Question.objects.all()
+    answer = Answer.objects.all()
 
     context = {
         'u_page' : u_page,
         'usr': user,
+        'question' :questions,
+        'ans':answer,
     }
+
 
     return render(request, 'accounts/profile.html', context)
 
@@ -98,3 +105,8 @@ def edit_profile(request):
     }
 
     return render(request, "accounts/edit-profile.html", context)
+
+
+
+def landing_page(request):
+    return render(request, "index.html")

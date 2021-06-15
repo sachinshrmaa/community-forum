@@ -9,16 +9,27 @@
             <h3 class="m-3">Feeds  <a href="{% url 'post-create' %}" class="btn btn-secondary mx-3"> Post Question</a> </h3>
 
             {% for q in posts %}
-                <div class="border-top p-3">
-                    <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
-                    <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
-                    <p>{{q.body}}</p>
-                    
-                    {% for tag in q.tags.all %}
-                    <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
-                    {% endfor %}
+            <div class="row border-top">
+                <div class="col-10">
+                    <div class="p-3">
+                        <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
+                        <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                        <p>{{q.body}}</p>
+                        
+                        {% for tag in q.tags.all %}
+                        <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                        {% endfor %}
+                    </div>
                 </div>
+                <div class="col-2 d-flex flex-column py-2">
+                    <div class="d-flex justify-content-center align-items-center py-2">
+                        <p>Answers : {{q.count_answers}}</p>
+                    </div>
+                </div>
+            </div>
+                
             {% endfor %}
+
         </div>
 
         <div class="offset-md-1 col-md-4">
@@ -31,14 +42,10 @@
                     <div class="fw-bold"><a href="{% url 'topic-detail' topic.id %}" class="text-decoration-none text-dark">{{topic.title}}</a></div>
                     {{topic.description}}
                   </div>
-                  <span class="badge bg-primary rounded-pill">14</span>
+                  <span class="badge bg-primary rounded-pill">{{topic.count_questions}}</span>
                 </li>
                 {% endfor %}
-            </ol>
-
-
-            
-                
+            </ol> 
             
         </div>
     </div>
