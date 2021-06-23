@@ -9,9 +9,8 @@ from django.views.generic import (
     DeleteView
 )
 
-# from django.http import HttpResponseRedirect
-# from django.contrib.auth.decorators import login_required
-# from django.db.utils import IntegrityError
+from django.db.models import Q
+
 
 from .models import Question, Answer, Topic
 from .forms import CreateCommentForm, CreateTopicForm
@@ -23,11 +22,12 @@ from .forms import CreateCommentForm, CreateTopicForm
 class FeedsListView(ListView):
     model = Question
     template_name = 'posts/feeds.html'
-    context_object_name = 'posts'
+    
 
     def get_context_data(self, **kwargs):
         context = super(FeedsListView, self).get_context_data(**kwargs)
         context['topics'] = Topic.objects.all()
+        context['posts'] = Question.objects.all().order_by('-timestamp')
         return context
 
 
@@ -129,54 +129,11 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False    
 
 
+def search_view(request):
+    query = request.GET.get('q')
+    post = Question.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
 
-# def update_votes(obj, user, value):
-#     """
-#     Updates votes for either a question or answer
-#     Args:
-#         obj: Question or Answer model instance
-#         user: User model instance voting an anwser or question
-#         value(str): 'U' for an up vote or 'D' for down vote
-#     """
-#     obj.votes.update_or_create(
-#         user=user, defaults={"value": value},
-#     )
-#     obj.count_votes()
-
-
-
-# @login_required
-# def question_vote(request):
-#     """Function view to receive AJAX call, returns the count of votes a given
-#     question has recieved."""
-#     question_id = request.POST.get('post_id')
-#     question = Question.objects.get(pk=question_id)
-
-#     value = True if request.POST.get('value') == "U" else False
-
-#     try:
-#         update_votes(question, request.user, value)
-#         return JsonResponse(
-#             {"votes": question.count_votes}
-#         )
-
-#     except IntegrityError:  # pragma: no cover
-#         return JsonResponse(
-#             {"status": "false", "message": _("Database integrity error.")}, status=500
-#         )
-
-
-
-
-# @login_required(login_url='/login')
-# def question_vote(request, pk):
-#     post = get_object_or_404(Question, id=request.POST.get('post_id'))
-#     liked = False
-
-#     if post.votes.filter(id=request.user.id).exists():
-#         post.votes.remove(request.user)
-#     else:
-#         post.votes.add(request.user)
-
-#     return HttpResponseRedirect(reverse('feeds', args=[str(pk)]))
-
+    context = {
+        'search_obj' : post, 
+    }
+    return render(request, "posts/search.html", context)
