@@ -27,10 +27,12 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" method="GET" action="/search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" required>
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+
+          
             
             <div class="navbar-nav ms-auto">
               {% if user.is_authenticated %}

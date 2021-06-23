@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Search {% endblock %}
+
+
+{% block body %} 
+
+
+<div>
+
+    <div class="my-4 bg-light py-5 text-center border rounded">
+        <h3>Search Results</h3>
+        <p>got what you were looking for?</p>
+    </div>
+
+
+    <div class="col-10 m-auto">
+        {% for q in search_obj %}
+            <div class="row border-top">
+                <div class="col-10">
+                    <div class="p-3">
+                        <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
+                        <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                        <p>{{q.body}}</p>
+                        
+                        {% for tag in q.tags.all %}
+                        <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-2 d-flex flex-column py-2">
+                    <div class="d-flex justify-content-center align-items-center py-2">
+                        <p>Answers : {{q.count_answers}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    
+</div>
+
+
+
+{% endblock %}
