@@ -5,7 +5,8 @@ from .views import (
     TopicDetailView, PostCreateView,
     PostDetailView, PostUpdateView,
     PostDeleteView, FeedsListView, 
-    search_view,
+    search_view, answer_upvotes,
+    answer_downvotes
     )
 
 
@@ -19,4 +20,6 @@ urlpatterns = [
     path('q/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('q/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('q/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('q/<int:pk>/upvote/', answer_upvotes, name ='up-vote'),
+    path('q/<int:pk>/downvote/', answer_downvotes, name ='down-vote'),
 ]

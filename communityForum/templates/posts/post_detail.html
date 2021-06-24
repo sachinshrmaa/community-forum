@@ -40,10 +40,20 @@
         </div>
         <div class="col-2 d-flex flex-column py-2">
             <div class="d-flex justify-content-center align-items-center py-3">
-                <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-up-fill"></i> 5 </a>
+                <form action="{% url 'up-vote' object.id %}" method="POST">
+                    {% csrf_token %}
+                    <button name="up_vote" class="btn text-success" value="{{comment.id}}">
+                        <i class="bi bi-hand-thumbs-up-fill"></i> {{comment.total_up_votes }}
+                    </button>
+                </form>
             </div>
             <div class="d-flex justify-content-center align-items-center py-3">
-                <a href="#" class="text-decoration-none"><i class="bi bi-hand-thumbs-down-fill"></i> 2 </a>
+                <form action="{% url 'down-vote' object.id %}" method="POST">
+                    {% csrf_token %}
+                    <button name="down_vote" class="btn text-danger" value="{{comment.id}}">
+                        <i class="bi bi-hand-thumbs-down-fill"></i> {{comment.total_down_votes }}
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -54,7 +64,7 @@
 
     {% endfor %}
 
-    <div class="row mt-3 offset-md-1 bg-light p-3">
+    <div class="row mt-3 offset-md-1 p-3">
         <div class="col-12 mb-2">
             <h5>Your Answer</h5>
         </div>

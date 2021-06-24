@@ -75,37 +75,28 @@ class Question(models.Model):
     def count_answers(self):
         return Answer.objects.filter(post=self).count()
 
-    def count_votes(self):
-        """Method to update the sum of the total votes. Uses this complex query
-        to avoid race conditions at database level."""
-        dic = Counter(self.votes.values_list("value", flat=True))
-        Question.objects.filter(id=self.id).update(total_votes=dic[True] - dic[False])
-        self.refresh_from_db()
+   
 
-    def get_upvoters(self):
-        """Returns a list containing the users who upvoted the instance."""
-        return [vote.user for vote in self.votes.filter(value=True)]
 
-    def count_upvotes(self):
-        return self.votes.filter(value=True).count()
-
-    def get_downvoters(self):
-        """Returns a list containing the users who downvoted the instance."""
-        return [vote.user for vote in self.votes.filter(value=False)]
-
-    def count_downvotes(self):
-        return self.votes.filter(value=False).count()
 
 class Answer(models.Model):
     """ Comments are replies to posts """
-
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post = models.ForeignKey(Question, on_delete=models.SET_NULL, null=True)
     timestamp = models.DateTimeField(default=timezone.now)
     body = models.TextField()
     tags = TaggableManager()
+    up_votes = models.ManyToManyField(User, related_name="up_vote")
+    down_votes = models.ManyToManyField(User, related_name="down_vote")
+
+    def total_up_votes(self):
+        return self.up_votes.count()
+
+    def total_down_votes(self):
+        return self.down_votes.count()
 
     def __str__(self):
         return self.body
 
+   
 
