@@ -6,7 +6,7 @@ from .views import (
     PostDetailView, PostUpdateView,
     PostDeleteView, FeedsListView, 
     search_view, answer_upvotes,
-    answer_downvotes
+    answer_downvotes, tagged_posts
     )
 
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('topics/', TopicListView.as_view(), name="forum-index"),
     path('search/', search_view, name="search"),
     path('topics/add/', TopicCreateView.as_view(), name='topic-add'),
+    path('tags/<slug>/', tagged_posts, name="tagged-article"),
     path('topics/<int:pk>/', TopicDetailView.as_view(), name='topic-detail'),
     path('q/newpost/', PostCreateView.as_view(), name='post-create'),
     path('q/<int:pk>/', PostDetailView.as_view(), name='post-detail'),

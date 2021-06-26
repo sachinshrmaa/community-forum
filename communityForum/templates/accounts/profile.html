@@ -36,7 +36,7 @@
 
                 <small class="text-muted">@{{usr.username}} </small>
                 {% if usr.is_staff %}
-                &nbsp; <small class="border border-success rounded text-success p-1"> verified  <i class="bi bi-check-circle"></i></small>
+                &nbsp; <small class="border border-success rounded text-success p-1"> verified staff  <i class="bi bi-check-circle"></i></small>
                 {% endif %}
 
                 {% if user.is_authenticated %}
@@ -73,11 +73,11 @@
                         <div class="col-10">
                             <div class="p-3">
                                 <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
-                                <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                                <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp |date:"M d, Y" }}</small>
                                 <p>{{q.body}}</p>
                                 
                                 {% for tag in q.tags.all %}
-                                <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                                <a href="/tags/{{tag.slug}}" class="text-decoration-none"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                             <p>{{q.body}}</p>
                             
                             {% for tag in q.tags.all %}
-                            <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                            <a href="/tags/{{tag.slug}}" class="text-decoration-none"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
                             {% endfor %}
                         </div>
                     </div>

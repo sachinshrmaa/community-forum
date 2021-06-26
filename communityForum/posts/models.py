@@ -9,33 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 from collections import Counter
 
 
-
-
-class Vote(models.Model):
-    """Model class to host every vote, made with ContentType framework to
-    allow a single model connected to Questions and Answers."""
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(default=timezone.now)
-    value = models.BooleanField(default=True)
-    content_type = models.ForeignKey(
-        ContentType,
-        blank=True,
-        null=True,
-        related_name="votes_on",
-        on_delete=models.CASCADE,
-    )
-    object_id = models.CharField(max_length=50, blank=True, null=True)
-    vote = GenericForeignKey("content_type", "object_id")
-
-    class Meta:
-        verbose_name = _("Vote")
-        verbose_name_plural = _("Votes")
-        index_together = ("content_type", "object_id")
-        unique_together = ("user", "content_type", "object_id")
-
-
-
 class Topic(models.Model):
     """ Topics contain posts """
 
@@ -63,7 +36,6 @@ class Question(models.Model):
     title = models.CharField(max_length=50, default='untitled')
     body = models.TextField()
     tags = TaggableManager()
-    votes = GenericRelation(Vote)
 
     def __str__(self):
         return self.title

@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer, Topic
 from .forms import CreateCommentForm, CreateTopicForm
-
+from taggit.models import Tag
 
 
 
@@ -25,6 +25,8 @@ class FeedsListView(ListView):
         context = super(FeedsListView, self).get_context_data(**kwargs)
         context['topics'] = Topic.objects.all()
         context['posts'] = Question.objects.all().order_by('-timestamp')
+        context["common_tags"] = Question.tags.most_common()
+
         return context
 
 
@@ -61,9 +63,8 @@ class PostDetailView(LoginRequiredMixin, FormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['comments'] = Answer.objects.filter(post=self.kwargs.get('pk')).order_by('-up_votes')
+        context['comments'] = Answer.objects.filter(post=self.kwargs.get('pk'))
         context['form'] = CreateCommentForm(initial={'post': self.object, 'author': self.request.user})
-
         return context
 
     def get_success_url(self):
@@ -158,3 +159,16 @@ def answer_downvotes(request, pk):
         answer.down_votes.add(request.user)
 
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
+
+
+def tagged_posts(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    question = Question.objects.filter(tags=tag)
+    common_tags = Question.tags.most_common()
+    context = {
+        'tag':tag,
+        'posts': question,
+        'common_tags' : common_tags,
+    }
+    return render(request, 'posts/tags.html', context)

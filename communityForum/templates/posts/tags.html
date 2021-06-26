@@ -1,15 +1,22 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %} {{object.title}} {% endblock %}
+{% block title %} {{tag}} {% endblock %}
 
-{% block body %}
+
+{% block body %} 
 
 <div class="col-md-8 m-auto">
 
     <div class="my-4 bg-light py-5 text-center border rounded">
-        <h3>{{object.title}}</h3>
-        <p>{{object.description}}</p>
+        <h3 class="text-capitalize">{{tag}}</h3>
+        <p>All questions and answers from {{tag}}.</p>
     </div>
+
+    <p>Popular Topics: &nbsp;
+        {% for tag in common_tags %}
+        <a href="/tags/{{tag.slug}}" class="text-decoration-none"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
+        {% endfor %}
+    </p>
 
 
     <div>
@@ -34,4 +41,4 @@
     
 </div>
 
-{% endblock %} 
+{% endblock %}

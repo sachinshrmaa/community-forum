@@ -13,11 +13,11 @@
                 <div class="col-10">
                     <div class="p-3">
                         <h4><a class="text-decoration-none" href="{% url 'post-detail' q.id %}">{{q.title}}</a></h4>
-                        <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp}}</small>
+                        <small class="text-muted">Posted by <a href="{% url 'profile' q.author %}">{{q.author}}</a> on {{q.timestamp |date:"M d, Y" }}</small>
                         <p>{{q.body}}</p>
                         
                         {% for tag in q.tags.all %}
-                        <small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small>
+                            <a href="/tags/{{tag.slug}}" class="text-decoration-none"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
                         {% endfor %}
                     </div>
                 </div>
@@ -33,19 +33,30 @@
         </div>
 
         <div class="offset-md-1 col-md-4">
-            <h3 class="my-3">Topics  <a href="{% url 'topic-add' %}" class="btn btn-secondary mx-3"> Add Topic</a> </h3>
+            <div>
+                <h3 class="my-3">Topics  <a href="{% url 'topic-add' %}" class="btn btn-secondary mx-3"> Add Topic</a> </h3>
 
-            <ol class="list-group">
-                {% for topic in topics %}
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold"><a href="{% url 'topic-detail' topic.id %}" class="text-decoration-none text-dark">{{topic.title}}</a></div>
-                    {{topic.description}}
-                  </div>
-                  <span class="badge bg-primary rounded-pill">{{topic.count_questions}}</span>
-                </li>
+                <ol class="list-group">
+                    {% for topic in topics %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{% url 'topic-detail' topic.id %}" class="text-decoration-none text-dark">{{topic.title}}</a></div>
+                        {{topic.description}}
+                    </div>
+                    <span class="badge bg-primary rounded-pill">{{topic.count_questions}}</span>
+                    </li>
+                    {% endfor %}
+                </ol> 
+            </div>
+
+
+            <div class="my-5">
+                <h3 class="my-3">Popular tags </h3>
+
+                {% for tag in common_tags %}
+                <a href="/tags/{{tag.slug}}" class="text-decoration-none m-1"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
                 {% endfor %}
-            </ol> 
+            </div>
             
         </div>
     </div>
