@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{%block title %} Add Topic {% endblock %}
+
 {% block body %}
 
 <div>
@@ -10,12 +12,16 @@
             <h4>Add New Topic</h4>
         </div>
         <div class="my-4">
+            {% if user.is_superuser %}
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
     
                <button class="btn btn-primary mt-3 px-4" type="submit">Add</button>
             </form>
+            {% else %}
+            <p class="text-center">You don't have the privilege to create a topic</p>
+            {% endif %}
         </div>
     </div>
 

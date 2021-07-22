@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Question, Answer, Topic
 from .forms import CreateCommentForm, CreateTopicForm
 from taggit.models import Tag
-
+from django.db.models import Count
 
 
 
@@ -32,7 +32,7 @@ class FeedsListView(ListView):
 
 class TopicListView(ListView):
     model = Topic
-    template_name = 'posts/index.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'posts/index.html'  
     context_object_name = 'topics'
 
 
@@ -63,7 +63,7 @@ class PostDetailView(LoginRequiredMixin, FormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['comments'] = Answer.objects.filter(post=self.kwargs.get('pk'))
+        context['comments'] = Answer.objects.annotate(votes =Count('up_votes')).order_by('-votes').filter(post=self.kwargs.get('pk'))
         context['form'] = CreateCommentForm(initial={'post': self.object, 'author': self.request.user})
         return context
 

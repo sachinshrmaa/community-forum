@@ -6,7 +6,13 @@
 
     <div class="row">
         <div class="col-md-7"> 
-            <h3 class="m-3">Feeds  <a href="{% url 'post-create' %}" class="btn btn-secondary mx-3"> Post Question</a> </h3>
+            {% if user.is_authenticated %}
+                <h3 class="m-3">Feeds  <a href="{% url 'post-create' %}" class="btn btn-secondary mx-3"> Post Question</a> </h3>
+            {% else %}
+                <h3 class="my-3">Feeds </h3>
+            {% endif %}
+
+            
 
             {% for q in posts %}
             <div class="row border-top">
@@ -34,7 +40,11 @@
 
         <div class="offset-md-1 col-md-4">
             <div>
+                {% if user.is_superuser %}
                 <h3 class="my-3">Topics  <a href="{% url 'topic-add' %}" class="btn btn-secondary mx-3"> Add Topic</a> </h3>
+                {% else %}
+                <h3 class="my-3">Topics </h3>
+                {% endif %}
 
                 <ol class="list-group">
                     {% for topic in topics %}
@@ -54,7 +64,7 @@
                 <h3 class="my-3">Popular tags </h3>
 
                 {% for tag in common_tags %}
-                <a href="/tags/{{tag.slug}}" class="text-decoration-none m-1"><small class="p-1 bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
+                    <a href="/tags/{{tag.slug}}" class="text-decoration-none my-2"><small class="bg-light text-secondary border rounded mr-2">{{tag}}</small></a>
                 {% endfor %}
             </div>
             

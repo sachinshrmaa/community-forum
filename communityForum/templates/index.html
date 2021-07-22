@@ -1,35 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %} Update Profile {% endblock %}
+{% block title %} Get Started {% endblock %}
 
 {% load crispy_forms_tags %}
 
 {% block body %}
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Poppins:wght@300&display=swap');
   .hero-sc{
     height: 75vh;
     padding: 100px 0;
   }
+  .hero-text{
+    font-weight: 800;
+    font-size: 70px;
+    font-family: 'Josefin Sans', sans-serif;
+  }
+  .working-card{
+    background-color: rgb(85, 142, 192);
+  }
+  .working-title{
+    font-weight: 600;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 45px;
+    margin-top: 50px;
+    margin-bottom: 70px;
+  }
 </style>
 
 <div class="text-center hero-sc">
-  <div class="col-6 m-auto">
-    <h1 class="mb-4">Clearing doubts made Easy</h1>
-    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure adipisci voluptate, pariatur vitae cumque cupiditate?</p>
+  <div class="col-7 m-auto">
+    <h1 class="mb-4 hero-text">Clearing doubts made Easy</h1>
+    <p class="mb-4">Connect with friends and faculties from anywhere.</p>
     <a href="{% url 'signup' %}" class="btn btn-primary px-4 py-2">Get Started</a>
   </div>
 </div>
 
-<div class="my-5 bg-light p-3 rounded">
+<div class="my-5 p-3 rounded working-card">
   
-  <h3 class="text-center mt-5 mb-3">How does it works?</h3>
-  <p class="text-center mb-5">get started in three easy steps!</p>
+  <h3 class="text-center working-title">How does it works?</h3>
 
   <div class="row mb-5 d-flex justify-content-evenly">
     <div class="col-3 card rounded p-3 text-center">
       <h4>1</h4>
-      <p>Create an Account <a href="#">here</a></p>
+      <p>Create an Account <a href="/signup">here</a></p>
     </div>
   
     <div class="col-3 card rounded p-3 text-center">
